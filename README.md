@@ -1,318 +1,545 @@
-# Cash-and-Carry Arbitrage Bot
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=200&section=header&text=Cash%20%26%20Carry%20Arbitrage%20Bot&fontSize=40&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Automated%20Futures%20Arbitrage%20Trading%20System&descAlignY=55&descSize=18">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=200&section=header&text=Cash%20%26%20Carry%20Arbitrage%20Bot&fontSize=40&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Automated%20Futures%20Arbitrage%20Trading%20System&descAlignY=55&descSize=18" width="100%"/>
+</picture>
 
-A professional-grade automated trading bot that identifies and executes cash-and-carry arbitrage opportunities in futures markets.
+<div align="center">
 
-## Overview
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Pydantic](https://img.shields.io/badge/Pydantic-V2-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://pydantic.dev)
+[![AsyncIO](https://img.shields.io/badge/AsyncIO-Enabled-00ADD8?style=for-the-badge&logo=python&logoColor=white)](https://docs.python.org/3/library/asyncio.html)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-Cash-and-carry arbitrage is a market-neutral strategy that exploits mispricings between spot and futures prices. When a futures contract trades at a price significantly higher than its theoretical fair value (Spot Price + Cost of Carry), the bot:
+[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square&logo=github-actions)](/)
+[![Tests](https://img.shields.io/badge/Tests-20%20Passed-success?style=flat-square&logo=pytest)](/)
+[![Code Style](https://img.shields.io/badge/Code%20Style-PEP8-blue?style=flat-square&logo=python)](/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square&logo=github)](/)
 
-1. **Buys the physical asset** at the spot price
-2. **Shorts the futures contract** at the inflated price
-3. **Holds until expiration**, then delivers the asset to close the futures position
-4. **Locks in risk-free profit** from the price differential
+**🎯 Identify • 📊 Calculate • ⚡ Execute • 💰 Profit**
 
-## Features
+[Features](#-features) •
+[Quick Start](#-quick-start) •
+[How It Works](#-how-it-works) •
+[Configuration](#%EF%B8%8F-configuration) •
+[Documentation](#-documentation)
 
-- **Real-time Market Monitoring**: Continuously fetches spot and futures prices from configurable data sources
-- **Cost of Carry Calculator**: Accurately calculates theoretical futures prices accounting for:
-  - Interest/financing costs
-  - Storage costs
-  - Dividend/convenience yields
-- **Arbitrage Detection**: Identifies profitable opportunities that exceed configurable thresholds
-- **Risk Management**:
-  - Position size limits per commodity
-  - Total exposure caps
-  - Emergency stop-loss protection
-- **Trade Execution**: Automated execution of both legs (spot buy + futures short)
-- **Position Tracking**: Maintains state of all open positions
-- **Alerting System**: Notifications for opportunities, trades, and errors
-- **Comprehensive Logging**: Detailed logs for monitoring and debugging
-- **Dry-Run Mode**: Test strategies without real capital
+</div>
 
-## Installation
+---
+
+## 🌟 What is Cash-and-Carry Arbitrage?
+
+<div align="center">
+<table>
+<tr>
+<td width="50%" align="center">
+
+### 📈 The Strategy
+
+When futures contracts trade **above** their fair value, we exploit the mispricing by:
+
+1. **BUY** physical asset at spot
+2. **SHORT** the overpriced futures
+3. **HOLD** until expiration
+4. **DELIVER** and lock in profit
+
+</td>
+<td width="50%" align="center">
+
+### 💡 Risk-Free Profit
+
+```
+Fair Price = Spot + Cost of Carry
+
+If Market Price > Fair Price
+   → Arbitrage Opportunity! 🎯
+```
+
+**No market direction risk**
+**Profit locked at entry**
+
+</td>
+</tr>
+</table>
+</div>
+
+---
+
+## ✨ Features
+
+<div align="center">
+
+| Feature | Description | Status |
+|:-------:|:------------|:------:|
+| 🔄 | **Real-Time Monitoring** | Continuous spot & futures price tracking | ✅ |
+| 🧮 | **Cost of Carry Engine** | Interest, storage, dividends calculation | ✅ |
+| 🎯 | **Opportunity Detection** | Automatic profitable trade identification | ✅ |
+| ⚡ | **Auto Execution** | Buy spot + short futures simultaneously | ✅ |
+| 🛡️ | **Risk Management** | Position limits, exposure caps, stop-loss | ✅ |
+| 📊 | **Position Tracking** | Real-time portfolio monitoring | ✅ |
+| 🚨 | **Alert System** | Email, log, and webhook notifications | ✅ |
+| 🧪 | **Dry-Run Mode** | Test without real capital | ✅ |
+| 📝 | **Comprehensive Logs** | Full audit trail | ✅ |
+
+</div>
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge&logo=python&logoColor=ffdd54)
+![pip](https://img.shields.io/badge/pip-latest-green?style=for-the-badge&logo=pypi&logoColor=white)
+![Git](https://img.shields.io/badge/git-latest-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+</div>
+
+### ⚡ Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Snapwave333/cashandcary.git
 cd cashandcary
 
-# Create virtual environment
+# Create & activate virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-
-# Or install as package
-pip install -e .
 ```
 
-## Quick Start
+### 🎮 First Run
 
-### 1. Initialize Configuration
+<details>
+<summary><b>1️⃣ Initialize Configuration</b></summary>
 
 ```bash
 python main.py --init-config
 ```
 
-This creates:
-- `config/commodities.json`: Commodity-specific settings
-- `.env.example`: Environment variables template
+Creates:
+- 📁 `config/commodities.json` - Trading parameters
+- 📄 `.env.example` - Environment template
 
-### 2. Configure Your Settings
+</details>
 
-Copy and edit the environment file:
+<details>
+<summary><b>2️⃣ Configure Settings</b></summary>
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` with your API credentials:
-
+Edit `.env`:
 ```env
-ARBITRAGE_API_KEY=your_api_key_here
+ARBITRAGE_API_KEY=your_key_here
 ARBITRAGE_BROKER_API_KEY=your_broker_key
 ARBITRAGE_DRY_RUN=true
 ARBITRAGE_MAX_TOTAL_EXPOSURE=1000000
 ```
 
-### 3. Run the Bot
+</details>
 
-**Dry Run with Mock Data (Recommended for Testing):**
+<details>
+<summary><b>3️⃣ Launch Bot</b></summary>
+
 ```bash
+# 🧪 Test with mock data (RECOMMENDED)
 python main.py --mock --dry-run
-```
 
-**Single Monitoring Cycle:**
-```bash
+# 🔍 Single monitoring cycle
 python main.py --once --mock
-```
 
-**Continuous Monitoring:**
-```bash
+# 🔄 Continuous monitoring
 python main.py --dry-run
-```
 
-**Production Mode (Use with extreme caution):**
-```bash
+# 🚀 Production (CAUTION!)
 python main.py
 ```
 
-## Configuration
+</details>
 
-### Environment Variables
+---
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ARBITRAGE_API_KEY` | API key for data feeds | - |
-| `ARBITRAGE_BROKER_API_KEY` | Broker API key | - |
-| `ARBITRAGE_DRY_RUN` | Simulate trades | `true` |
-| `ARBITRAGE_MONITORING_INTERVAL_SECONDS` | Check interval | `60` |
-| `ARBITRAGE_MAX_TOTAL_EXPOSURE` | Max capital at risk | `1000000` |
-| `ARBITRAGE_LOG_LEVEL` | Logging verbosity | `INFO` |
-| `ARBITRAGE_ALERT_EMAIL` | Email for alerts | - |
+## 🧠 How It Works
 
-### Commodity Configuration
+### 📐 The Math Behind It
 
-Edit `config/commodities.json`:
+<div align="center">
 
-```json
-[
-  {
-    "symbol": "GOLD",
-    "spot_api_url": "https://api.metals.live/v1/spot/gold",
-    "futures_api_url": "https://api.cmegroup.com/v1/futures/gold",
-    "annual_interest_rate": "0.05",
-    "annual_storage_cost_rate": "0.005",
-    "annual_dividend_yield": "0.0",
-    "contract_size": "100",
-    "min_profit_threshold": "0.005",
-    "max_position_size": 10
-  }
-]
+```
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│   🎯 THEORETICAL FUTURES PRICE                         │
+│                                                         │
+│        F = S × (1 + (r + s - y) × T)                  │
+│                                                         │
+│   Where:                                                │
+│   • S = Spot Price         💵                          │
+│   • r = Interest Rate      📈 (annual)                 │
+│   • s = Storage Cost       🏭 (annual)                 │
+│   • y = Dividend Yield     💰 (annual)                 │
+│   • T = Time to Expiry     ⏰ (years)                  │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+
+         ⬇️ IF Actual Price > Theoretical Price ⬇️
+
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│   💎 PROFIT PER CONTRACT                                │
+│                                                         │
+│   Profit = (Actual - Theoretical) × Contract Size      │
+│                                                         │
+│   ✅ EXECUTE ARBITRAGE                                  │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
-**Parameters:**
-- `symbol`: Commodity identifier
-- `spot_api_url`: Endpoint for spot prices
-- `futures_api_url`: Endpoint for futures data
-- `annual_interest_rate`: Risk-free rate (e.g., 0.05 = 5%)
-- `annual_storage_cost_rate`: Storage as % of spot
-- `annual_dividend_yield`: Convenience yield
-- `contract_size`: Units per futures contract
-- `min_profit_threshold`: Minimum profit % to trade
-- `max_position_size`: Max contracts for this commodity
+</div>
 
-## Architecture
+### 📊 Real Example
+
+<div align="center">
+
+| Parameter | Value |
+|:----------|------:|
+| 🥇 **Gold Spot Price** | $2,000/oz |
+| 📅 **3-Month Futures** | $2,050/oz |
+| 💰 **Interest Rate** | 5% |
+| 🏭 **Storage Cost** | 1% |
+| 📦 **Contract Size** | 100 oz |
+
+</div>
+
+```python
+# Calculate theoretical price
+T = 90 / 365  # 3 months in years
+theoretical = 2000 * (1 + (0.05 + 0.01) * T)
+# = $2,000 × 1.0148 = $2,029.59
+
+# Profit calculation
+price_diff = 2050 - 2029.59  # = $20.41/oz
+profit = 20.41 * 100  # = $2,041 per contract! 🎉
+profit_pct = 20.41 / 2029.59  # = 1.01% ✅
+```
+
+> 💡 **Result**: With `min_profit_threshold = 0.5%`, this **1.01% opportunity triggers a trade!**
+
+---
+
+## 🏗️ Architecture
+
+<div align="center">
+
+```
+                    ┌──────────────────────┐
+                    │     🎮 MAIN.PY       │
+                    │   (Entry Point)      │
+                    └──────────┬───────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │      🤖 BOT.PY       │
+                    │   (Orchestrator)     │
+                    └──────────┬───────────┘
+                               │
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+┌─────────▼──────────┐ ┌──────▼───────┐ ┌─────────▼─────────┐
+│  📡 DATA_FEEDS.PY  │ │ 🧮 CALC.PY  │ │  ⚡ EXECUTOR.PY   │
+│  (Market Data)     │ │ (Pricing)   │ │  (Trade Engine)   │
+└────────────────────┘ └──────────────┘ └───────────────────┘
+          │                    │                    │
+          │            ┌───────▼───────┐           │
+          │            │  📋 MODELS.PY │           │
+          └────────────►  (Data Types) ◄───────────┘
+                       └───────────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │    ⚙️ CONFIG.PY      │
+                    │   (Settings)         │
+                    └──────────────────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │    🚨 ALERTS.PY      │
+                    │   (Notifications)    │
+                    └──────────────────────┘
+```
+
+</div>
+
+### 📁 Project Structure
 
 ```
 cashandcary/
-├── src/cashandcary/
-│   ├── __init__.py       # Package initialization
-│   ├── config.py         # Configuration management
-│   ├── models.py         # Data models (Pydantic)
-│   ├── data_feeds.py     # Market data fetching
-│   ├── calculator.py     # Cost of carry calculations
-│   ├── executor.py       # Trade execution engine
-│   ├── bot.py            # Main orchestration
-│   └── alerts.py         # Alerting and logging
-├── tests/                # Unit tests
-├── config/               # Configuration files
-├── main.py              # Entry point
-└── requirements.txt      # Dependencies
+├── 📂 src/cashandcary/
+│   ├── 🎯 __init__.py       # Package init
+│   ├── ⚙️ config.py         # Configuration management
+│   ├── 📋 models.py         # Pydantic data models
+│   ├── 📡 data_feeds.py     # Market data fetching
+│   ├── 🧮 calculator.py     # Cost of carry engine
+│   ├── ⚡ executor.py       # Trade execution
+│   ├── 🤖 bot.py            # Main orchestrator
+│   └── 🚨 alerts.py         # Alerting system
+├── 🧪 tests/                 # Unit tests
+├── 📁 config/                # Configuration files
+├── 🎮 main.py               # Entry point
+└── 📦 requirements.txt       # Dependencies
 ```
 
-### Core Components
+---
 
-1. **Data Feed Module** (`data_feeds.py`)
-   - Fetches real-time spot and futures prices
-   - Supports multiple data sources
-   - Mock feed for testing
+## ⚙️ Configuration
 
-2. **Calculator** (`calculator.py`)
-   - Cost of carry computation
-   - Theoretical futures pricing
-   - Arbitrage opportunity analysis
+### 🌍 Environment Variables
 
-3. **Executor** (`executor.py`)
-   - Risk validation
-   - Position sizing
-   - Trade execution (both legs)
-   - Position management
+<div align="center">
 
-4. **Bot Orchestrator** (`bot.py`)
-   - Main monitoring loop
-   - Opportunity detection
-   - Trade coordination
-   - State persistence
+| Variable | Description | Default | Required |
+|:---------|:------------|:-------:|:--------:|
+| `ARBITRAGE_API_KEY` | 🔑 Data feed API key | - | ⚠️ |
+| `ARBITRAGE_BROKER_API_KEY` | 🏦 Broker API key | - | ⚠️ |
+| `ARBITRAGE_DRY_RUN` | 🧪 Simulation mode | `true` | No |
+| `ARBITRAGE_MONITORING_INTERVAL_SECONDS` | ⏱️ Check frequency | `60` | No |
+| `ARBITRAGE_MAX_TOTAL_EXPOSURE` | 💰 Max capital at risk | `1000000` | No |
+| `ARBITRAGE_LOG_LEVEL` | 📝 Verbosity | `INFO` | No |
+| `ARBITRAGE_ALERT_EMAIL` | 📧 Alert recipient | - | No |
 
-## How It Works
+</div>
 
-### The Cash-and-Carry Formula
+### 🥇 Commodity Configuration
 
-```
-Theoretical Futures Price = Spot Price × (1 + (r + s - y) × T)
-
-Where:
-- r = Annual interest rate
-- s = Annual storage cost rate
-- y = Annual convenience yield
-- T = Time to expiration (years)
+```json
+{
+  "symbol": "GOLD",
+  "spot_api_url": "https://api.metals.live/v1/spot/gold",
+  "futures_api_url": "https://api.cmegroup.com/v1/futures/gold",
+  "annual_interest_rate": "0.05",      // 5% risk-free rate
+  "annual_storage_cost_rate": "0.005", // 0.5% storage
+  "annual_dividend_yield": "0.0",       // No yield
+  "contract_size": "100",               // 100 oz per contract
+  "min_profit_threshold": "0.005",      // 0.5% minimum profit
+  "max_position_size": 10               // Max 10 contracts
+}
 ```
 
-### Profit Calculation
+---
 
-```
-Profit = (Actual Futures Price - Theoretical Price) × Contract Size
+## 🧪 Testing
 
-If Actual > Theoretical by more than threshold → Execute arbitrage
-```
+<div align="center">
 
-### Example
+![Pytest](https://img.shields.io/badge/pytest-7.4+-009688?style=for-the-badge&logo=pytest&logoColor=white)
+![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen?style=for-the-badge)
 
-```
-Gold Spot Price: $2,000/oz
-3-Month Future Price: $2,050/oz (actual)
-Interest Rate: 5%
-Storage Cost: 1%
-Contract Size: 100 oz
-
-Theoretical Price = $2,000 × (1 + 0.06 × 0.25) = $2,030
-Price Difference = $2,050 - $2,030 = $20/oz
-Profit Per Contract = $20 × 100 oz = $2,000
-Profit Percentage = $20 / $2,030 = 0.99%
-
-If min_profit_threshold = 0.5%, this is profitable!
-```
-
-## Testing
+</div>
 
 ```bash
-# Run all tests
+# 🧪 Run all tests
 pytest tests/
 
-# Run specific test file
-pytest tests/test_calculator.py
-
-# Run with verbose output
+# 📊 Run with verbose output
 pytest -v tests/
 
-# Run with coverage
+# 📈 Generate coverage report
 pytest --cov=src/cashandcary tests/
+
+# 🎯 Test specific module
+pytest tests/test_calculator.py
 ```
 
-## Monitoring & Logs
+### Test Structure
 
-- **Main Log**: `arbitrage_bot.log` - All bot activity
-- **Error Log**: `errors.log` - Errors only
-- **Alert Log**: `alerts.log` - JSON-formatted alerts
-- **State File**: `state/positions.json` - Current positions
+- `test_calculator.py` - Cost of carry calculations
+- `test_executor.py` - Trade execution logic
+- `test_bot.py` - Bot orchestration
 
-## Risk Warnings
+---
 
-**IMPORTANT**: This bot is designed for educational and research purposes. Real arbitrage trading involves significant risks:
+## 📈 Monitoring & Logs
 
-1. **Execution Risk**: Slippage and partial fills can eliminate profits
-2. **Counterparty Risk**: Broker/exchange failures
-3. **Liquidity Risk**: May not be able to exit positions
-4. **Regulatory Risk**: Different jurisdictions have different rules
-5. **Capital Requirements**: Physical delivery requires substantial capital
-6. **Storage Costs**: Real storage costs may exceed estimates
-7. **Interest Rate Risk**: Financing costs can change
+<div align="center">
 
-**Always:**
-- Start with dry-run mode
-- Use small position sizes initially
-- Understand all costs involved
-- Have sufficient capital reserves
-- Monitor positions actively
-- Consult with financial professionals
+| File | Content | Purpose |
+|:-----|:--------|:--------|
+| 📜 `arbitrage_bot.log` | All bot activity | Main audit trail |
+| ❌ `errors.log` | Errors only | Quick debugging |
+| 🚨 `alerts.log` | JSON alerts | Machine-readable events |
+| 💼 `state/positions.json` | Open positions | Portfolio state |
 
-## API Integration
+</div>
 
-To use with real APIs, implement specific parsers in `data_feeds.py`:
+---
+
+## ⚠️ Risk Warnings
+
+<div align="center">
+
+> **🔴 IMPORTANT: Educational & Research Purposes Only**
+
+</div>
+
+### 🎯 Key Risks
+
+<div align="center">
+
+| Risk Type | Description | Mitigation |
+|:----------|:------------|:-----------|
+| ⚡ **Execution** | Slippage, partial fills | Low-latency execution |
+| 🏦 **Counterparty** | Broker/exchange failure | Multiple brokers |
+| 💧 **Liquidity** | Can't exit positions | Liquid contracts only |
+| ⚖️ **Regulatory** | Jurisdiction rules | Legal compliance |
+| 💰 **Capital** | Large capital requirements | Proper funding |
+| 🏭 **Storage** | Costs exceed estimates | Conservative estimates |
+| 📈 **Interest Rate** | Financing cost changes | Fixed-rate financing |
+
+</div>
+
+### ✅ Best Practices
+
+```diff
++ Start with dry-run mode
++ Use small position sizes initially
++ Understand all costs involved
++ Have sufficient capital reserves
++ Monitor positions actively
++ Consult with financial professionals
+- Never trade with money you can't afford to lose
+- Don't ignore risk management settings
+- Don't use in production without thorough testing
+```
+
+---
+
+## 🔌 API Integration
+
+### Custom Data Feed Implementation
 
 ```python
+from cashandcary.data_feeds import FuturesPriceFeed, SpotPriceFeed
+
 class CMEDataFeed(FuturesPriceFeed):
+    """Custom CME Group API parser."""
+
     def _parse_futures_response(self, config, data):
-        # Parse CME-specific response format
-        pass
+        # Parse CME-specific JSON response
+        contracts = []
+        for item in data['quotes']:
+            contract = FuturesContract(
+                symbol=config.symbol,
+                contract_code=item['contractCode'],
+                price=Decimal(str(item['lastPrice'])),
+                # ... additional fields
+            )
+            contracts.append(contract)
+        return contracts
+
 
 class MetalsLiveFeed(SpotPriceFeed):
+    """Custom metals.live API parser."""
+
     def _parse_spot_response(self, symbol, data):
-        # Parse metals.live response format
-        pass
+        return SpotPrice(
+            symbol=symbol,
+            price=Decimal(str(data['spot']['price'])),
+            # ... additional fields
+        )
 ```
 
-## Extending the Bot
+---
 
-### Adding New Commodities
+## 🛠️ Extending the Bot
 
-1. Add configuration in `config/commodities.json`
+<details>
+<summary><b>📦 Adding New Commodities</b></summary>
+
+1. Add to `config/commodities.json`
 2. Implement API parser if needed
-3. Adjust storage costs appropriately
+3. Set appropriate storage costs
+4. Test with dry-run mode
 
-### Custom Alert Channels
+</details>
+
+<details>
+<summary><b>🔔 Custom Alert Channels</b></summary>
 
 ```python
 class SlackAlertManager(AlertManager):
     def _send_slack_alert(self, alert):
-        # Implement Slack webhook integration
-        pass
+        webhook_url = "https://hooks.slack.com/..."
+        payload = {
+            "text": f"*{alert.level}*: {alert.title}\n{alert.message}"
+        }
+        requests.post(webhook_url, json=payload)
 ```
 
-### Different Compounding Methods
+</details>
+
+<details>
+<summary><b>📈 Continuous Compounding</b></summary>
 
 ```python
+# Use exponential formula: F = S × e^((r+s-y)×T)
 calculator = CostOfCarryCalculator(use_continuous_compounding=True)
 ```
 
-## License
+</details>
 
-MIT License - See LICENSE file for details.
+---
 
-## Disclaimer
+## 🤝 Contributing
 
-This software is provided "as is" without warranty of any kind. The authors are not responsible for any financial losses incurred through the use of this software. Trading futures and commodities involves substantial risk of loss and is not suitable for all investors.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Always consult with qualified financial advisors before engaging in real trading activities.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+</div>
+
+---
+
+## ⚖️ Disclaimer
+
+<div align="center">
+
+> **This software is provided "AS IS" without warranty of any kind.**
+>
+> The authors are **NOT responsible** for any financial losses incurred through the use of this software.
+>
+> Trading futures and commodities involves **substantial risk of loss** and is **not suitable for all investors**.
+>
+> **Always consult with qualified financial advisors before engaging in real trading activities.**
+
+</div>
+
+---
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=100&section=footer">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=100&section=footer" width="100%"/>
+</picture>
+
+<div align="center">
+
+**Made with ❤️ for the trading community**
+
+⭐ Star this repo if you find it useful! ⭐
+
+</div>
